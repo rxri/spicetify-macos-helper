@@ -20,7 +20,6 @@
 		310A55AF2C4C41670037D437 /* launchAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = launchAgent.swift; sourceTree = "<group>"; };
 		3153C4AD2C4C22BD00BB61E4 /* spicetify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = spicetify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3153C4B42C4C22C100BB61E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		3153C4B92C4C22C100BB61E4 /* spicetify.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = spicetify.entitlements; sourceTree = "<group>"; };
 		3153C4C12C4C269500BB61E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3153C4CC2C4C31C100BB61E4 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -57,7 +56,6 @@
 			children = (
 				3153C4C12C4C269500BB61E4 /* Info.plist */,
 				3153C4B42C4C22C100BB61E4 /* Assets.xcassets */,
-				3153C4B92C4C22C100BB61E4 /* spicetify.entitlements */,
 				3153C4CC2C4C31C100BB61E4 /* main.swift */,
 				310A55AB2C4C3F2F0037D437 /* utils.swift */,
 				310A55AD2C4C413E0037D437 /* filesystem.swift */,
@@ -288,7 +286,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = spicetify/spicetify.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -324,7 +322,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = spicetify/spicetify.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
