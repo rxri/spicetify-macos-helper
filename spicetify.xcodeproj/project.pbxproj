@@ -133,6 +133,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		310A55B62C4C54C60037D437 /* Copy bin folder with binary to MacOS */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
