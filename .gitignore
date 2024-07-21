@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+*.swp
+
+# Xcode
+*.pbxuser
+*.perspective
+*.perspectivev3
+xcuserdata
+
+# Backup files
+*~.nib
+
+# Spicetify binary
+bin
+build

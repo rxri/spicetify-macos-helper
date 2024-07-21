@@ -20,7 +20,7 @@
 		310A55AF2C4C41670037D437 /* launchAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = launchAgent.swift; sourceTree = "<group>"; };
 		3153C4AD2C4C22BD00BB61E4 /* spicetify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = spicetify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3153C4B42C4C22C100BB61E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		3153C4C12C4C269500BB61E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3153C4C12C4C269500BB61E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3153C4CC2C4C31C100BB61E4 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -35,10 +35,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3123F1DE2C4D9342003A554B /* src */ = {
+			isa = PBXGroup;
+			children = (
+				310A55AB2C4C3F2F0037D437 /* utils.swift */,
+				310A55AD2C4C413E0037D437 /* filesystem.swift */,
+				310A55AF2C4C41670037D437 /* launchAgent.swift */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		3153C4A42C4C22BC00BB61E4 = {
 			isa = PBXGroup;
 			children = (
-				3153C4AF2C4C22BD00BB61E4 /* spicetify */,
+				3123F1DE2C4D9342003A554B /* src */,
+				3153C4C12C4C269500BB61E4 /* Info.plist */,
+				3153C4B42C4C22C100BB61E4 /* Assets.xcassets */,
+				3153C4CC2C4C31C100BB61E4 /* main.swift */,
 				3153C4AE2C4C22BD00BB61E4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,19 +62,6 @@
 				3153C4AD2C4C22BD00BB61E4 /* spicetify.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		3153C4AF2C4C22BD00BB61E4 /* spicetify */ = {
-			isa = PBXGroup;
-			children = (
-				3153C4C12C4C269500BB61E4 /* Info.plist */,
-				3153C4B42C4C22C100BB61E4 /* Assets.xcassets */,
-				3153C4CC2C4C31C100BB61E4 /* main.swift */,
-				310A55AB2C4C3F2F0037D437 /* utils.swift */,
-				310A55AD2C4C413E0037D437 /* filesystem.swift */,
-				310A55AF2C4C41670037D437 /* launchAgent.swift */,
-			);
-			path = spicetify;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,7 +148,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SOURCE_FOLDER=\"${SRCROOT}/spicetify/bin\"\nDESTINATION_FOLDER=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}/Contents/MacOS/bin\"\nmkdir -p \"$DESTINATION_FOLDER\"\ncp -R \"$SOURCE_FOLDER/\" \"$DESTINATION_FOLDER/\"\n";
+			shellScript = "SOURCE_FOLDER=\"${SRCROOT}/bin\"\nDESTINATION_FOLDER=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}/Contents/MacOS/bin\"\nmkdir -p \"$DESTINATION_FOLDER\"\ncp -R \"$SOURCE_FOLDER/\" \"$DESTINATION_FOLDER/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -297,10 +297,10 @@
 				ENABLE_PREVIEWS = YES;
 				EXECUTABLE_NAME = helper;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = spicetify/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = spicetify;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright (C) 2024 spicetify";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -333,10 +333,10 @@
 				ENABLE_PREVIEWS = YES;
 				EXECUTABLE_NAME = helper;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = spicetify/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = spicetify;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright (C) 2024 spicetify";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
