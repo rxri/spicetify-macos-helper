@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 ririxi
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import Foundation
 
 func spawnProcess(executable: String, arguments: [String] = [], captureOutput: Bool = false) -> (

@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 ririxi
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import SwiftUI
 
 class AppDelegate: NSObject, NSApplicationDelegate {
