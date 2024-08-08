@@ -44,7 +44,7 @@ func loadLaunchAgent() -> Bool {
     createLaunchAgent()
   }
 
-  let proc = spawnProcess(executable: "/bin/launchctl", arguments: ["load", "-w", plistPath.path])
+  let proc = spawnProcess(executable: "/bin/launchctl", arguments: ["load", "-w", plistPath.path], background: true)
   if proc.exitStatus != 0 {
     print("Failed to load LaunchAgent")
     return false

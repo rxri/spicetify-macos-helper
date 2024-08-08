@@ -5,7 +5,7 @@
 
 import Foundation
 
-func spawnProcess(executable: String, arguments: [String] = [], captureOutput: Bool = false) -> (
+func spawnProcess(executable: String, arguments: [String] = [], captureOutput: Bool = false, background: Bool = false) -> (
   exitStatus: Int32, output: String?
 ) {
   let process = Process()
@@ -18,21 +18,32 @@ func spawnProcess(executable: String, arguments: [String] = [], captureOutput: B
     process.standardError = pipe
   }
 
-  do {
-    try process.run()
-    process.waitUntilExit()
-
-    let output: String?
-    if captureOutput {
-      let data = pipe.fileHandleForReading.readDataToEndOfFile()
-      output = String(data: data, encoding: .utf8)
-    } else {
-      output = nil
+  if !background {
+    let workspace = NSWorkspace.shared
+    do {
+      try workspace.openApplication(at: URL(fileURLWithPath: executable), options: .default, configuration: [:])
+      return (exitStatus: 0, output: nil)
+    } catch {
+      print("Error running process: \(error)")
+      return (exitStatus: -1, output: nil)
     }
+  } else {
+    do {
+      try process.run()
+      process.waitUntilExit()
 
-    return (exitStatus: process.terminationStatus, output: output)
-  } catch {
-    print("Error running process: \(error)")
-    return (exitStatus: -1, output: nil)
+      let output: String?
+      if captureOutput {
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        output = String(data: data, encoding: .utf8)
+      } else {
+        output = nil
+      }
+
+      return (exitStatus: process.terminationStatus, output: output)
+    } catch {
+      print("Error running process: \(error)")
+      return (exitStatus: -1, output: nil)
+    }
   }
 }

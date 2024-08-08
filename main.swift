@@ -13,7 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     print("Spawning spicetify binary with URL...")
-    spawnProcess(executable: BinaryPath, arguments: ["protocol", String(describing: url)])
+    spawnProcess(executable: BinaryPath, arguments: ["protocol", String(describing: url)], background: true)
     print("Helper is quitting. Bye!")
     app.terminate(self)
   }
@@ -22,11 +22,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     addPathToShellRc(shellFiles: [".zshrc", ".bash_profile"])
     if !doesLaunchAgentExist() {
       loadLaunchAgent()
-      spawnProcess(executable: BinaryPath, arguments: ["init"])
+      spawnProcess(executable: BinaryPath, arguments: ["init"], background: true)
     }
 
     print("Spawning spicetify binary...")
-    spawnProcess(executable: BinaryPath)
+    spawnProcess(executable: BinaryPath, background: false)
     print("Helper is quitting. Bye!")
     app.terminate(self)
   }
