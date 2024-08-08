@@ -15,7 +15,7 @@ func doesFileExist(_ path: String) -> Bool {
 
 func readFile(at path: String) -> String? {
   guard doesFileExist(path) else {
-    print("\(path) does not exist")
+    logger("\(path) does not exist")
     return nil
   }
 
@@ -23,43 +23,87 @@ func readFile(at path: String) -> String? {
     let fileContent = try String(contentsOfFile: path, encoding: .utf8)
     return fileContent
   } catch {
-    print("Error reading \(path): \(error)")
+    logger("Error reading \(path): \(error)")
     return nil
   }
 }
 
-func addPathToShellRc(shellFiles: [String]) {
+func addPathToShellRc() {
   let fileManager = FileManager.default
   let homeDirectory = fileManager.homeDirectoryForCurrentUser
 
-  for configFile in shellFiles {
-    let configFilePath = homeDirectory.appendingPathComponent(configFile).path
+  let (exitStatus, output) = spawnProcess(executable: "/usr/bin/env", arguments: ["sh", "-c", "echo $SHELL"], captureOutput: true)
+  guard exitStatus == 0, let shell = output?.trimmingCharacters(in: .newlines) else {
+    logger("Error getting user's default shell")
+    return
+  }
 
-    var content = readFile(at: configFilePath)
+  var configFile: String, exportLine: String
+  let exportType = getShellType(from: shell)
+  switch exportType {
+  case .bash:
+    configFile = ".bash_profile"
+    exportLine = "export PATH=\"$PATH:\(BinDirPath)\" # spicetify"
+  case .zsh:
+    configFile = ".zshrc"
+    exportLine = "export PATH=\"$PATH:\(BinDirPath)\" # spicetify"
+  case .fish:
+    configFile = ".config/fish/config.fish"
+    exportLine = "fish_add_path \(BinDirPath) # spicetify"
+  default:
+    logger("Unsupported shell. Skipping configuration file update.")
+    return
+  }
 
-    if content == nil {
-      content = ""
-    }
+  logger("User's shell is `\(configFile)`")
+    
+  let configFilePath = homeDirectory.appendingPathComponent(configFile).path
+  var content = readFile(at: configFilePath)
 
-    do {
-      let exportLine = "export PATH=\"$PATH:\(BinaryPath)\" # spicetify"
-      if !content!.contains(exportLine) {
-        if !content!.isEmpty {
-          content! += "\n"
-        }
+  if content == nil {
+    content = ""
+  }
 
-        content! += exportLine
-
-        try content!.write(toFile: configFilePath, atomically: true, encoding: .utf8)
-      } else {
-        print("Path already exists inside \(configFile)")
+  do {
+    if !content!.contains(exportLine) {
+      if !content!.isEmpty {
+        content! += "\n"
       }
-    } catch {
-      print("Error updating \(configFile): \(error)")
+
+      content! += exportLine
+
+      try content!.write(toFile: configFilePath, atomically: true, encoding: .utf8)
+      logger("Added path to `\(configFile)`")
+    } else {
+      logger("Path already exists inside `\(configFile)`")
     }
+  } catch {
+    logger("Error updating \(configFile): \(error)")
   }
 
   return
 }
 
-var BinaryPath = "\(Bundle.main.bundlePath)/Contents/MacOS/bin/spicetify"
+private enum ShellType {
+    case bash
+    case zsh
+    case fish
+    case unknown
+}
+
+private func getShellType(from path: String) -> ShellType {
+    switch path {
+    case "/bin/bash":
+        return .bash
+    case "/bin/zsh":
+        return .zsh
+    case "/usr/local/bin/fish", "/opt/local/bin/fish":
+        return .fish
+    default:
+        return .unknown
+    }
+}
+
+let BinaryPath = "\(Bundle.main.bundlePath)/Contents/MacOS/bin/spicetify"
+let BinDirPath = BinaryPath.range(of: "/spicetify", options: .backwards)
+    .map { BinaryPath.replacingCharacters(in: $0, with: "") }!

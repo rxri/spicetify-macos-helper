@@ -8,26 +8,27 @@ import SwiftUI
 class AppDelegate: NSObject, NSApplicationDelegate {
   func application(_ application: NSApplication, open urls: [URL]) {
     guard let url = urls.first else {
-      print("No URL received")
+      logger("No URL received")
       return
     }
 
-    print("Spawning spicetify binary with URL...")
-    spawnProcess(executable: BinaryPath, arguments: ["protocol", String(describing: url)], background: true)
-    print("Helper is quitting. Bye!")
+    logger("Spawning spicetify binary with URL...")
+    spawnProcess(
+      executable: BinaryPath, arguments: ["protocol", String(describing: url)], background: true)
+    logger("Helper is quitting. Bye!")
     app.terminate(self)
   }
 
   func applicationDidFinishLaunching(_ notification: Notification) {
-    addPathToShellRc(shellFiles: [".zshrc", ".bash_profile"])
+    addPathToShellRc()
     if !doesLaunchAgentExist() {
       loadLaunchAgent()
       spawnProcess(executable: BinaryPath, arguments: ["init"], background: true)
     }
 
-    print("Spawning spicetify binary...")
+    logger("Spawning spicetify binary...")
     spawnProcess(executable: BinaryPath, background: false)
-    print("Helper is quitting. Bye!")
+    logger("Helper is quitting. Bye!")
     app.terminate(self)
   }
 }

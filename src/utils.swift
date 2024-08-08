@@ -4,8 +4,9 @@
  */
 
 import Foundation
+import SwiftUI
 
-func spawnProcess(executable: String, arguments: [String] = [], captureOutput: Bool = false, background: Bool = false) -> (
+@discardableResult func spawnProcess(executable: String, arguments: [String] = [], captureOutput: Bool = false, background: Bool = true) -> (
   exitStatus: Int32, output: String?
 ) {
   let process = Process()
@@ -20,13 +21,18 @@ func spawnProcess(executable: String, arguments: [String] = [], captureOutput: B
 
   if !background {
     let workspace = NSWorkspace.shared
-    do {
-      try workspace.openApplication(at: URL(fileURLWithPath: executable), options: .default, configuration: [:])
-      return (exitStatus: 0, output: nil)
-    } catch {
-      print("Error running process: \(error)")
-      return (exitStatus: -1, output: nil)
+    let config = NSWorkspace.OpenConfiguration()
+    config.activates = true
+    config.arguments = arguments
+    var exitStatus: Int32 = 0, output: String? = nil
+    workspace.openApplication(at: URL(fileURLWithPath: executable), configuration: config) { (app, error) in
+        if let error = error {
+            logger("Error running process: \(error)")
+            exitStatus = -1
+        }
     }
+      
+    return (exitStatus, output)
   } else {
     do {
       try process.run()
@@ -42,8 +48,16 @@ func spawnProcess(executable: String, arguments: [String] = [], captureOutput: B
 
       return (exitStatus: process.terminationStatus, output: output)
     } catch {
-      print("Error running process: \(error)")
+      logger("Error running process: \(error)")
       return (exitStatus: -1, output: nil)
     }
   }
+}
+
+func logger(_ logMessage: String, functionName: String = #function) {
+    let formatter = ISO8601DateFormatter()
+    formatter.formatOptions = [.withInternetDateTime]
+    formatter.timeZone = TimeZone.current
+    let date = formatter.string(from: Date())
+    print("[\(date)] \(functionName): \(logMessage)")
 }

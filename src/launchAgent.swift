@@ -16,18 +16,16 @@ let plistData = try! PropertyListSerialization.data(
 let fileManager = FileManager.default
 let launchAgentDirectory = fileManager.homeDirectoryForCurrentUser.appendingPathComponent(
   "Library/LaunchAgents")
-let plistPath = launchAgentDirectory.appendingPathComponent("spicetify.Spicetify.daemon.plist")
+let plistPath = launchAgentDirectory.appendingPathComponent("spicetify.spicetify.daemon.plist")
 
-func createLaunchAgent() -> Bool {
+func createLaunchAgent() -> Void {
   do {
     try fileManager.createDirectory(
       at: launchAgentDirectory, withIntermediateDirectories: true, attributes: nil)
     try plistData.write(to: plistPath)
-    print("LaunchAgent created at \(plistPath.path)")
-    return true
+    logger("LaunchAgent created at \(plistPath.path)")
   } catch {
-    print("Failed to create LaunchAgent: \(error)")
-    return false
+    logger("Failed to create LaunchAgent: \(error)")
   }
 }
 
@@ -39,14 +37,14 @@ func doesLaunchAgentExist() -> Bool {
   }
 }
 
-func loadLaunchAgent() -> Bool {
+@discardableResult func loadLaunchAgent() -> Bool {
   if !doesLaunchAgentExist() {
     createLaunchAgent()
   }
 
   let proc = spawnProcess(executable: "/bin/launchctl", arguments: ["load", "-w", plistPath.path], background: true)
   if proc.exitStatus != 0 {
-    print("Failed to load LaunchAgent")
+    logger("Failed to load LaunchAgent")
     return false
   }
 
