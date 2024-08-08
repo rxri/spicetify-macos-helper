@@ -24,14 +24,19 @@ import SwiftUI
     let config = NSWorkspace.OpenConfiguration()
     config.activates = true
     config.arguments = arguments
+      
+    let dispatchGroup = DispatchGroup()
+    dispatchGroup.enter()
     var exitStatus: Int32 = 0, output: String? = nil
     workspace.openApplication(at: URL(fileURLWithPath: executable), configuration: config) { (app, error) in
         if let error = error {
             logger("Error running process: \(error)")
             exitStatus = -1
         }
+        dispatchGroup.leave()
     }
       
+    dispatchGroup.wait()
     return (exitStatus, output)
   } else {
     do {
